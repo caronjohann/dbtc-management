@@ -1,6 +1,42 @@
+@import url("https://fonts.googleapis.com/css?family=Heebo&display=swap");
+
+/* universal styling */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   background-color: #fff;
-  margin: 0;
+  font-family: "Heebo", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  margin-top: 50px;
+}
+
+::selection {
+  background: #000;
+  color: #fff;
+}
+::-moz-selection {
+  background: #000;
+  color: #fff;
+}
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 380px;
+  height: 675px;
+  position: relative;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
 }
 
 .overlay {
@@ -29,3 +65,189 @@ body {
 .btn-clicked {
   color: red;
 }
+
+/* log in page styling */
+
+.log-cont {
+  text-align: center;
+  background-color: #fafafa;
+  position: relative;
+  border-radius: 20px;
+}
+
+.globe {
+  display: inline-block;
+  text-align: center;
+}
+
+.form-content {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.login-headings {
+  text-transform: uppercase;
+  font-size: 11px;
+  color: #ececec;
+  margin-bottom: 5px;
+}
+
+.log-cont input {
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  padding: 10px 0;
+  border-bottom: 1px solid #ececec;
+  font-size: 18px;
+  width: 150px;
+  transition: all 0.3s ease;
+  text-align: center;
+  margin-bottom: 30px;
+  background-color: #fafafa;
+  width: 200px;
+}
+
+.log-cont input:focus {
+  outline: none;
+  font-size: 22px;
+}
+
+.log-cont input:focus::placeholder {
+  color: transparent;
+}
+
+.log-cont input::placeholder {
+  color: #000;
+}
+
+.login-btn {
+  font-size: 16px;
+  display: inline-block;
+  border: none;
+  border-radius: 50px;
+  width: 250px;
+  padding: 20px 0;
+  background-color: #fafafa;
+  box-shadow: 3px 3px 5px 3px rgb(245, 245, 245);
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background-color: #fff;
+  transform: translateY(-3px);
+}
+.create-acnt-link {
+  font-size: 10px;
+}
+
+/* dashboard styling */
+
+/* new log styling */
+
+.log-heading {
+  text-align: center;
+  color: rgb(228, 228, 228);
+  margin-top: 20px;
+  margin-bottom: 100px;
+  font-weight: 100;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.log-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 150px;
+  padding: 20px 10px;
+  margin-right: 20px;
+  margin-top: 20px;
+  box-shadow: 3px 3px 5px 3px rgb(245, 245, 245);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.log-card:nth-child(2),
+.log-card:nth-child(4) {
+  margin-right: 0;
+}
+
+.log-card:hover {
+  transform: translateY(-3px);
+}
+
+.reading-container {
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.reading input {
+  border: none;
+  font-size: 50px;
+  width: 150px;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+.reading input:focus {
+  outline: none;
+  font-size: 90px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.continue-btn {
+  width: 100%;
+  border: none;
+  padding: 20px 10px;
+  box-shadow: 3px 3px 5px 3px rgb(245, 245, 245);
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  bottom: 20px;
+  position: absolute;
+  transition: all 0.3s ease;
+}
+
+.continue-btn:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.add-food {
+  /* position: absolute;
+  bottom: 100px; */
+}
+
+.add-btn {
+  font-size: 45px;
+  border-radius: 50px;
+  background: #000;
+  color: #fff;
+}
+
+.add-txt {
+  color: #000;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+/* .enter-food {
+  z-index: 10;
+} */

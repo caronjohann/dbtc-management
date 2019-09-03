@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
-class Log extends Component {
+class Beforemeal extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      formStage: 1,
+      addFood: false,
       foodInput: "",
       beforeOrAfter: "before",
       reading: "",
@@ -87,21 +89,27 @@ class Log extends Component {
     let resNBody = await resN.text();
     console.log(resNBody);
   };
-
   handleFood = evt => {
     // let foodEntered = this.state.foodEntered;
     // let food = evt.target.value;
     // foodEntered.concat(food);
     this.setState({ foodInput: evt.target.value });
   };
-
+  handleFoodClick = () => {
+    this.setState({ addFood: true });
+  };
   handleEntry = () => {
     let foodEntries = this.state.foodEntered.concat(this.state.foodInput);
-    this.setState({ foodEntered: foodEntries });
+    this.setState({ foodEntered: foodEntries, addFood: false });
   };
-
   handleInsulin = evt => {
     this.setState({ insulinTaken: evt.target.value });
+  };
+  handleReadingContinue = () => {
+    this.setState({ formStage: 2 });
+  };
+  handleAddContinue = () => {
+    this.setState({ formStage: 3 });
   };
 
   render = () => {
@@ -120,49 +128,81 @@ class Log extends Component {
     //   btnSnack = "btn-main btn-clicked";
     // }
 
-    return (
-      <div>
-        <div className="log-heading">
-          <h2>What would you like to log?</h2>
+    // form stage 1
+    if (this.state.formStage === 1) {
+      return (
+        <div className="container">
+          <div className="reading-container">
+            <div className="reading">
+              <input type="number" onChange={this.handleReading} />
+            </div>
+            <div className="log-heading">
+              <h2>What's your meter reading?</h2>
+            </div>
+            <div className="continue-btn" onClick={this.handleReadingContinue}>
+              Continue
+            </div>
+          </div>
         </div>
-
-        <div className="card-container">
-          <Link to="/new-entry/before-meal">
-            <div className="log-card">
-              <div>
-                <img></img>
+      );
+      // form stage 2 - add food
+    } else if (this.state.formStage === 2) {
+      // add food popup
+      if (this.state.addFood) {
+        return (
+          <div className="container enter-food">
+            <div className="reading-container">
+              <div className="reading">
+                <input type="text" onChange={this.handleFood} />
               </div>
-              <div>Morning</div>
-            </div>
-          </Link>
-          <Link to="/new-entry/before-meal">
-            <div className="log-card">
-              <div>
-                <img></img>
+              <div className="log-heading">
+                <h2>Enter food and portion, example: 1 egg</h2>
               </div>
-              <div>Before Meal</div>
             </div>
-          </Link>
-          <Link to="/new-entry/before-meal">
-            <div className="log-card">
-              <div>
-                <img></img>
+            <div onClick={this.handleEntry} className="continue-btn">
+              Add
+            </div>
+          </div>
+        );
+      } else {
+        // default add food page
+        return (
+          <div className="container">
+            <div className="reading-container">
+              {this.state.foodEntered.map(each => {
+                return <div>{each}</div>;
+              })}
+              <div className="add-food">
+                <div onClick={this.handleFoodClick} className="add-btn">
+                  +
+                </div>
+                <div className="add-txt">Add food</div>
               </div>
-              <div>Evening</div>
             </div>
-          </Link>
-          <Link to="/new-entry/before-meal">
-            <div className="log-card">
-              <div>
-                <img></img>
-              </div>
-              <div>Activity</div>
+            <div onClick={this.handleAddContinue} className="continue-btn">
+              Continue
             </div>
-          </Link>
+          </div>
+        );
+      }
+      // form stage 3 - insulin intake
+    } else if (this.state.formStage === 3) {
+      return (
+        <div className="container">
+          <div className="reading-container">
+            <div className="reading">
+              <input type="number" onChange={this.handleReading} />
+            </div>
+            <div className="log-heading">
+              <h2>How much insulin will you take?</h2>
+            </div>
+            <div className="continue-btn" onClick={this.handleSubmit}>
+              Continue
+            </div>
+          </div>
         </div>
-      </div>
-    );
-
+      );
+    }
     // return (
     //   <div>
     //     <form onSubmit={this.handleSubmit}>
@@ -197,4 +237,4 @@ class Log extends Component {
   };
 }
 
-export default Log;
+export default Beforemeal;

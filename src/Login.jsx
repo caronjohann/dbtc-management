@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import Progress from "./Progress.jsx";
 
 class Login extends Component {
   constructor(props) {
@@ -28,6 +29,11 @@ class Login extends Component {
     } else {
       this.setState({ loggedIn: true });
     }
+    return (
+      <div>
+        <Progress />
+      </div>
+    );
   };
   handleEmail = evt => {
     this.setState({ email: evt.target.value });
@@ -46,14 +52,35 @@ class Login extends Component {
       );
     }
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <h2>Email address</h2>
-          <input type="email" onChange={this.handleEmail} />
-          <h2>Password</h2>
-          <input type="password" onChange={this.handlePassword} />
-          <input type="submit" value="Login" />
-        </form>
+      <div className="container log-cont">
+        <div className="globe">
+          <img src="assets/globe.gif" width="350px"></img>
+        </div>
+        <div className="form-content">
+          <form>
+            <h2 className="login-headings">Email</h2>
+            <input
+              type="email"
+              onChange={this.handleEmail}
+              placeholder="you@domain.com"
+            />
+            <h2 className="login-headings">Password</h2>
+            <input
+              type="password"
+              onChange={this.handlePassword}
+              placeholder="••••••"
+            />
+
+            <div>
+              <a onClick={this.handleSubmit} className="login-btn">
+                Login
+              </a>
+            </div>
+          </form>
+          <div className="create-acnt-link">
+            <Link to="/signup">Create an account</Link>
+          </div>
+        </div>
       </div>
     );
   };
