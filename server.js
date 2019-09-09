@@ -95,10 +95,10 @@ app.post("/new-log", upload.none(), (req, res) => {
   let email = sessionIds[sid];
   let date = req.body.date;
   let time = req.body.time;
-  let beforeOrAfter = req.body.beforeOrAfter;
+  // let beforeOrAfter = req.body.beforeOrAfter;
   let reading = Number(req.body.reading);
-  let mealOrSnack = req.body.mealOrSnack;
-  let foodEntered = req.body.foodEntered;
+  // let mealOrSnack = req.body.mealOrSnack;
+  let foodEntered = JSON.parse(req.body.foodEntered);
   let insulinTaken = Number(req.body.insulinTaken);
   console.log(email);
   dbo.collection("logs").insertOne(
@@ -106,9 +106,9 @@ app.post("/new-log", upload.none(), (req, res) => {
       email,
       date,
       time,
-      beforeOrAfter,
+      // beforeOrAfter,
       reading,
-      mealOrSnack,
+      // mealOrSnack,
       foodEntered,
       insulinTaken
     },

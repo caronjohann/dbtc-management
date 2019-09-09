@@ -121,7 +121,13 @@ class Log extends Component {
     // }
 
     return (
-      <div>
+      <div className="entry-cont bg-black">
+        <div className="gif">
+          <img
+            src="https://media.giphy.com/media/XCftNDRB3DpUXzKojG/giphy.gif"
+            width="350px"
+          />
+        </div>
         <div className="log-heading">
           <h2>What would you like to log?</h2>
         </div>

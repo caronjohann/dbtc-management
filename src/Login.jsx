@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Progress from "./Progress.jsx";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
-class Login extends Component {
+class UnconnectedLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,12 +30,8 @@ class Login extends Component {
       this.setState({ loggedIn: false });
     } else {
       this.setState({ loggedIn: true });
+      this.props.history.push("/dashboard");
     }
-    return (
-      <div>
-        <Progress />
-      </div>
-    );
   };
   handleEmail = evt => {
     this.setState({ email: evt.target.value });
@@ -42,15 +40,6 @@ class Login extends Component {
     this.setState({ password: evt.target.value });
   };
   render = () => {
-    if (this.state.loggedIn === true) {
-      return (
-        <div>
-          <h2>You have logged in, welcome</h2>
-          <Link to="/dashboard">Progress</Link>
-          <Link to="/new-entry">New Log</Link>
-        </div>
-      );
-    }
     return (
       <div className="container log-cont">
         <div className="globe">
@@ -78,12 +67,14 @@ class Login extends Component {
             </div>
           </form>
           <div className="create-acnt-link">
-            <Link to="/signup">Create an account</Link>
+            <Link to="/signup">Create account</Link>
           </div>
         </div>
       </div>
     );
   };
 }
+
+let Login = connect()(withRouter(UnconnectedLogin));
 
 export default Login;

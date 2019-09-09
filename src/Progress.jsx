@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
 import Today from "./Today.jsx";
+import Yesterday from "./Yesterday.jsx";
+import Log from "./Log.jsx";
+import { Link } from "react-router-dom";
+import Beforemeal from "./Beforemeal.jsx";
 
 class UnconnectedProgress extends Component {
   constructor() {
@@ -9,7 +13,7 @@ class UnconnectedProgress extends Component {
     this.state = {
       loaded: false,
       percentage: undefined,
-      filter: "today"
+      filter: "the last week"
     };
   }
   componentDidMount = async () => {
@@ -24,18 +28,33 @@ class UnconnectedProgress extends Component {
       loaded: true
     });
 
-    let today = moment().format("ll");
+    let lastWeek = [];
+    for (let i = 0; i < 7; i++) {
+      let day = moment()
+        .subtract(i, "days")
+        .format("ll");
+      lastWeek = lastWeek.concat(day);
+    }
 
-    let allReadingsToday = this.props.userLogs.filter(each => {
-      return each.date === today;
+    let allReadingsThisWeek = [];
+
+    this.props.userLogs.forEach(each => {
+      for (var i = 0; i < lastWeek.length; i++) {
+        if (lastWeek[i] === each.date) {
+          allReadingsThisWeek = allReadingsThisWeek.concat(each);
+        }
+      }
     });
 
-    let inRangeToday = allReadingsToday.filter(each => {
+    let inRangeThisWeek = allReadingsThisWeek.filter(each => {
       return each.reading >= 4.0 && each.reading <= 9.8;
     });
 
-    let percentageToday = (inRangeToday.length / allReadingsToday.length) * 100;
-    this.setState({ percentage: Math.floor(percentageToday) });
+    let percentageThisWeek =
+      (inRangeThisWeek.length / allReadingsThisWeek.length) * 100;
+    this.setState({
+      percentage: Math.floor(percentageThisWeek)
+    });
   };
 
   handleDay = () => {
@@ -145,32 +164,81 @@ class UnconnectedProgress extends Component {
       filter: "the last 3 months"
     });
   };
+
   render = () => {
     // 1. calculate the percentage in range
     // 2. take the number of all your readings over the course of 1 day, 1 week, 2 months and 3 months
     // 3. out of all the total readings check how many are between 4.0 and 9.8
     // 3. take that number of good readings and divide it by the total number of all readings in your range and * it by 100 to get the percentage in range
     // 4. so, for example if you had 5 readings in 1 day which were 15.2, 12.1, 9.8, 4.2, 16.0 two readings are in range (9.8 and 4.2) take 2 and divide by total of 5 readings * 100 = 40% in range for the day
+    // let today = moment().format("ll");
+    // let logsToday = this.props.userLogs.filter(each => {
+    //   return each.date === today;
+    // });
     if (!this.state.loaded) {
-      return <div>Loading</div>;
+      return <div></div>;
     }
 
-    // console.log("user logs", this.props.userLogs);
-
-    // console.log("readings this week", allReadingsThisWeek);
-
     return (
-      <div>
-        <div>{this.state.percentage}</div>
-        <div>
-          During {this.state.filter} you have been in range{" "}
-          {this.state.percentage}% of the time
+      <div className="dash-cont">
+        <div className="top-bar">
+          <img src="assets/search-icon.png" width="20px" />
+          <img src="assets/menu-icon.png" width="18px" />
         </div>
-        <button onClick={this.handleDay}>Today</button>
+        <div className="percent-cont">
+          <div className="percent">{this.state.percentage}%</div>
+          <div className="percent-txt">In range {this.state.filter}</div>
+          <div className="filter-dots">
+            <div className="filter-dot" onClick={this.handleWeek}>
+              •
+            </div>
+            <div className="filter-dot" onClick={this.handleMonth}>
+              •
+            </div>
+            <div className="filter-dot" onClick={this.handleThreeMonths}>
+              •
+            </div>
+          </div>
+        </div>
+        {/* <button onClick={this.handleDay}>Today</button>
         <button onClick={this.handleWeek}>Week</button>
         <button onClick={this.handleMonth}>Month</button>
-        <button onClick={this.handleThreeMonths}>3 Months</button>
-        <Today />
+        <button onClick={this.handleThreeMonths}>3 Months</button> */}
+
+        <div className="container">
+          <Today />
+          <Yesterday />
+          {/* <div className="day">Today</div> */}
+          {/* {logsToday.map(each => {
+            return (
+              <div>
+                <div>{each.time}</div>
+                <div>{each.reading}</div>
+              </div>
+            );
+          })} */}
+        </div>
+        <div className="bottom-bar">
+          <div>
+            <img src="assets/bookmarks-icon.png" width="20px"></img>
+          </div>
+          <div>
+            <img src="assets/calculate-icon.png" width="20px"></img>
+          </div>
+          <div>
+            <Link to="/new-entry">
+              <span className="new-entry">
+                <img src="assets/plus-icon.png" width="30px"></img>
+              </span>
+            </Link>
+          </div>
+          <div>
+            <img src="/assets/send-icon.png" width="20px"></img>
+          </div>
+          <div>
+            <img src="assets/history-icon.png" width="20px"></img>
+          </div>
+        </div>
       </div>
     );
   };
